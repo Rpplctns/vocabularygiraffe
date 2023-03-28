@@ -1,0 +1,16 @@
+{
+  "primary": "#976947",
+  "correct": "#26d926",
+  "wrong": "#d92626",
+  "yellow": "#d9ca26",
+  "grey": "#7f7f7f",
+
+  "light": {
+    "background": "#edebdd",
+    "foreground": "#333333"
+  },
+  "dark": {
+    "background": "#21222A",
+    "foreground": "#f2f2f2"
+  }
+}

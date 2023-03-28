@@ -1,0 +1,30 @@
+[
+  {
+    "word_id": 0,
+    "sentence": "The policies of the company are not universally applicable and may vary depending on the region or country.",
+    "word": "applicable",
+    "word_type": "adj.",
+    "status": [null, true, true, true, true]
+  },
+  {
+    "word_id": 0,
+    "sentence": "The policies of the company are not universally applicable and may vary depending on the region or country.",
+    "word": "applicable",
+    "word_type": "n.",
+    "status": [null, null, false, true, false]
+  },
+  {
+    "word_id": 0,
+    "sentence": "The policies of the company are not universally applicable and may vary depending on the region or country.",
+    "word": "applicable",
+    "word_type": "v.",
+    "status": [false, true, true, true, true]
+  },
+  {
+    "word_id": 0,
+    "sentence": "The policies of the company are not universally applicable and may vary depending on the region or country.",
+    "word": "applicable",
+    "word_type": "v.",
+    "status": [false, true, true, true, true]
+  }
+]

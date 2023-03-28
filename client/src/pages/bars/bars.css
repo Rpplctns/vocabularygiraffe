@@ -1,0 +1,43 @@
+.bars_header {
+    display: flex;
+    flex-direction: row;
+    height: 90px;
+    align-items: center;
+    padding-left: 40px;
+    padding-right: 40px;
+    gap: 30px;
+}
+
+.header_text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+}
+
+.header_button {
+    height: 30px;
+    width: 30px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.header_button_separator {
+    justify-self: flex-end;
+    margin-left: auto;
+    height: 30px;
+    width: 30px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.bars_footer {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer_text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}

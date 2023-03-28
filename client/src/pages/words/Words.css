@@ -1,0 +1,26 @@
+.words_container {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 160px);
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.words_header {
+    font-size: x-large;
+    margin: 40px 40px 0 40px;
+    word-spacing: .7em;
+}
+
+.words_category_container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-family: 'Lora', serif;
+    gap: 40px;
+    margin: 40px;
+}
+
+.words_word {
+    margin: 0;
+}
