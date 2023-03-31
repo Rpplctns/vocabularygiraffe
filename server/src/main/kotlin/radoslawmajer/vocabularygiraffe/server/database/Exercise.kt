@@ -2,7 +2,7 @@ package radoslawmajer.vocabularygiraffe.server.database
 
 class Exercise (
     val wordId: String?,
-    val sentence: String?,
+    var sentence: String?,
     val word: String?,
     val wordType: String?
 )
