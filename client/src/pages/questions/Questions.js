@@ -8,55 +8,50 @@ import {useEffect, useState} from "react";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const Questions = ({question_set, setResponse}) => {
+import example_set from "../../example_set.json"
+
+const Questions = () => {
+    const question_set = example_set
+
     const question_count = question_set.length
 
-    const [page, setPage] = useState(0)
-    const [answer, setAnswer] = useState("")
-    const [answers, setAnswers] = useState([])
-    const [question, setQuestion] = useState(question_set[0])
+    const [card, setCard] = useState(0)
+    const [answers, setAnswers] = useState(Array(question_count))
 
     useEffect(() => {
-        if(page % 2 === 0 && page < question_count){
-            setAnswer("")
-            setQuestion(question_set[page / 2])
-        }
-    }, [page])
-
-    useEffect(() => {
-        if(page % 2 === 1) setAnswers(answers.concat([answer === question.word]))
-    }, [page])
-
-    useEffect(() => {
-        if(page === question_count * 2) setResponse(answers)
-    }, [page])
+        //if(card === question_count * 2)  //SUBMIT
+    }, [card])
 
     return (
         <div className={"question_container"}>
             <FontAwesomeIcon
-                onClick={() => setPage(page + 1)}
+                onClick={() => setCard(card + 1)}
                 className={"question_next"}
                 icon={faChevronRight}
             />
             {
-                (page % 2 === 0 && page < question_count * 2) &&
+                (card % 2 === 0 && card < question_count * 2) &&
                 (
                     <OpenQuestion
-                        number={page / 2 + 1}
-                        sentence={question.sentence.split(question.word)}
-                        word_type={question["word_type"]}
-                        setAnswer={(a) => setAnswer(a)}
+                        number={card / 2 + 1}
+                        sentence={question_set[card / 2].sentence.split(question_set[card / 2].word)}
+                        word_type={question_set[card / 2]["word_type"]}
+                        setAnswer={(a) => setAnswers(() => {
+                            let res = answers;
+                            res[card / 2] = a
+                            return res
+                        })}
                     />
                 )
             }
             {
-                (page % 2 !== 0 && page < question_count * 2) && (
+                (card % 2 !== 0 && card < question_count * 2) && (
                     <Answer
-                        number={(page - 1) / 2 + 1}
-                        sentence={question.sentence.split(question.word)}
-                        answer_given={answer}
-                        answer_correct={question.word}
-                        status={question.status}
+                        number={(card - 1) / 2 + 1}
+                        sentence={question_set[(card - 1) / 2].sentence.split(question_set[(card - 1) / 2].word)}
+                        answer_given={answers[(card - 1) / 2]}
+                        answer_correct={question_set[(card - 1) / 2].word}
+                        status={question_set[(card - 1) / 2].status}
                     />
                 )
             }

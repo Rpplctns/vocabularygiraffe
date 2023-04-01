@@ -3,8 +3,16 @@ import './Words.css'
 import colors from '../../const/colors.json'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLinesLeaning, faCheck, faCloud} from "@fortawesome/free-solid-svg-icons";
+import {useState} from "react";
 
-const Words = ({words}) => {
+const Words = () => {
+
+    const [words, setWords] = useState(null)
+
+    fetch("http://localhost:8080/api/words/")
+        .then(res => res.json())
+        .then(data => setWords(data))
+
     return (
         <div className={"words_container"}>
             <p className={"words_header"} style={{color: colors.wrong}}>
@@ -13,9 +21,9 @@ const Words = ({words}) => {
             </p>
             <div className={"words_category_container"}>
                 {
-                    words.planned.map(word => {
+                    (words !== null) && words.map((word, i) => {
                         return (
-                            <p className={"words_word"}>{word}</p>
+                            <p className={"words_word"} key={i}>{word.content}</p>
                         )
                     })
                 }
@@ -26,9 +34,9 @@ const Words = ({words}) => {
             </p>
             <div className={"words_category_container"}>
                 {
-                    words.learning.map(word => {
+                    (words !== null) &&  words.map((word, i) => {
                         return (
-                            <p className={"words_word"}>{word}</p>
+                            <p className={"words_word"} key={i}>{word.content}</p>
                         )
                     })
                 }
@@ -39,9 +47,9 @@ const Words = ({words}) => {
             </p>
             <div className={"words_category_container"}>
                 {
-                    words.learned.map(word => {
+                    (words !== null) && words.map((word, i) => {
                         return (
-                            <p className={"words_word"}>{word}</p>
+                            <p className={"words_word"} key={i}>{word.content}</p>
                         )
                     })
                 }

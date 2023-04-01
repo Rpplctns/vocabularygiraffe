@@ -5,7 +5,6 @@ import radoslawmajer.vocabularygiraffe.server.utils.*
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
-import java.time.LocalDateTime
 import java.util.*
 
 @Service

@@ -1,7 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans&family=Playfair+Display:wght@400;800&display=swap');
+
 body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  user-select: none;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.themeToggle {
+    position: sticky;
+    align-self: flex-end;
+    bottom: 20px;
+    right: 20px;
+    height: 30px;
+    width: 30px;
+    padding: 10px;
+    border: solid 2px;
+    border-radius: 35px;
 }
