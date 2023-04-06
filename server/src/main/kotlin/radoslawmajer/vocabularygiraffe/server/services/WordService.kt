@@ -19,7 +19,8 @@ class WordService(val db: JdbcTemplate) {
             response.getString("id"),
             response.getString("content"),
             response.getTimestamp("last_time_used"),
-            response.getString("word_type")
+            response.getString("word_type"),
+            response.getInt("status")
         )
     }
 
@@ -28,8 +29,8 @@ class WordService(val db: JdbcTemplate) {
      * @param word Word
      */
     fun addWord(word: Word) {
-        val id = word.id ?: UUID.randomUUID().toString()
-        val type = word.content?.let { getType(it) }
-        db.update("insert into words values ( ?, ?, ?, ? )", id, word.content, word.lastTimeUsed, type)
+        val id = UUID.randomUUID().toString()
+        val type = getType(word.content)
+        db.update("insert into words values ( ?, ?, ?, ?, ? )", id, word.content, null, type, 0)
     }
 }
