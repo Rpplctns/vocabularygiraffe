@@ -24,3 +24,24 @@
 .words_word {
     margin: 0;
 }
+
+.words_type {
+    color: grey;
+}
+
+.words_add_container {
+    position: fixed;
+
+    left: 25%;
+    top: 30%;
+
+    width: 50%;
+    height: 40%;
+
+    background-color: #FFFFFF;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

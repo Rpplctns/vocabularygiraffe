@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*
 import radoslawmajer.vocabularygiraffe.server.database.*
 import radoslawmajer.vocabularygiraffe.server.services.*
 import radoslawmajer.vocabularygiraffe.server.utils.*
+import java.io.FileNotFoundException
 
 @RestController
 @RequestMapping("/api/words")
@@ -12,7 +13,12 @@ class WordsController (val service: WordService) {
     fun getAllWords(): List<Word> = service.getWords()
 
     @PostMapping("/")
-    fun addWord(@RequestBody word: Word) {
-        service.addWord(word)
+    fun addWord(@RequestParam("word") word: String): Boolean {
+        return try {
+            service.addWord(word)
+            true
+        } catch (e: FileNotFoundException) {
+            false
+        }
     }
 }

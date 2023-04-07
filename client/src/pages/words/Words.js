@@ -30,7 +30,7 @@ const Words = () => {
                 {
                     words.filter((word) => word.status < 243).map((word, i) => {
                         return (
-                            <p className={"words_word"} key={i}>{word.content}</p>
+                            <p className={"words_word"} key={i}>{word["content"]} <span className={"words_type"}>({word["type"]})</span></p>
                         )
                     })
                 }

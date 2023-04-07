@@ -1,10 +1,10 @@
 package radoslawmajer.vocabularygiraffe.server.services
 
-import radoslawmajer.vocabularygiraffe.server.database.*
-import radoslawmajer.vocabularygiraffe.server.utils.*
-
-import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.stereotype.Service
+import radoslawmajer.vocabularygiraffe.server.database.Word
+import radoslawmajer.vocabularygiraffe.server.utils.getType
+import java.io.FileNotFoundException
 import java.util.*
 
 @Service
@@ -18,7 +18,6 @@ class WordService(val db: JdbcTemplate) {
         Word(
             response.getString("id"),
             response.getString("content"),
-            response.getTimestamp("last_time_used"),
             response.getString("word_type"),
             response.getInt("status")
         )
@@ -27,10 +26,12 @@ class WordService(val db: JdbcTemplate) {
     /**
      * Adds word to database.
      * @param word Word
+     * @throws FileNotFoundException if there is no such word in the dictionary
      */
-    fun addWord(word: Word) {
+    @Throws(FileNotFoundException::class)
+    fun addWord(word: String) {
         val id = UUID.randomUUID().toString()
-        val type = getType(word.content)
-        db.update("insert into words values ( ?, ?, ?, ?, ? )", id, word.content, null, type, 0)
+        val type = getType(word)
+        db.update("insert into words values ( ?, ?, ?, ?, ? )", id, word, null, type, 0)
     }
 }

@@ -28,7 +28,6 @@ class QuizService(val db: JdbcTemplate) {
             Word(
                 response.getString("id"),
                 response.getString("content"),
-                response.getTimestamp("last_time_used"),
                 response.getString("word_type"),
                 response.getInt("status")
             )

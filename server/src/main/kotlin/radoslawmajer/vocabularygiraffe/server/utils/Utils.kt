@@ -2,6 +2,7 @@ package radoslawmajer.vocabularygiraffe.server.utils
 
 import com.aallam.openai.client.OpenAI
 import com.google.gson.JsonParser
+import java.io.FileNotFoundException
 import java.net.URL
 
 /**
@@ -24,7 +25,9 @@ suspend fun getSentence(word: String, openAI: OpenAI): String = "I suppose $word
  * Uses a dictionaryapi website.
  * @param word a given word
  * @return a string of parts of speech
+ * @throws FileNotFoundException if there is no such word in a dictionary
  */
+@Throws(FileNotFoundException::class)
 fun getType(word: String): String = JsonParser
     .parseString(
         URL("https://api.dictionaryapi.dev/api/v2/entries/en/$word")
@@ -39,7 +42,9 @@ fun getType(word: String): String = JsonParser
         q.asJsonObject
             .get("partOfSpeech")
             .asString
-    }.joinToString(separator = "/") { q ->
+    }
+    .distinct()
+    .joinToString(separator = "/") { q ->
         when (q) {
             "adjective" -> "adj."
             "noun" -> "n."
