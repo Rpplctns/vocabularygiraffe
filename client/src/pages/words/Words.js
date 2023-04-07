@@ -18,7 +18,9 @@ const Words = () => {
         []
     )
 
-    if (words !== null) return (
+    return words === null ? (
+        <Loading/>
+    ) : (
         <div className={"words_container"}>
             <p className={"words_header"} style={{color: colors.wrong}}>
                 <FontAwesomeIcon icon={faLinesLeaning}/>
@@ -39,7 +41,7 @@ const Words = () => {
             </p>
             <div className={"words_category_container"}>
                 {
-                    words.filter((word) => word.status === 243).map((word, i) => {
+                    words.filter((word) => word.status >= 243).map((word, i) => {
                         return (
                             <p className={"words_word"} key={i}>{word.content}</p>
                         )
@@ -47,9 +49,6 @@ const Words = () => {
                 }
             </div>
         </div>
-    )
-    else return (
-        <Loading/>
     )
 }
 export default Words

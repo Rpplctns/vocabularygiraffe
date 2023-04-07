@@ -5,56 +5,86 @@ import Answer from "./Answer";
 
 import {useEffect, useState} from "react";
 
-import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faChevronRight, faHourglassHalf} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Results from "./Results";
+import Loading from "../loading/Loading";
 
-import example_set from "../../example_set.json"
+const question_count = 10
 
 const Questions = () => {
-    const question_set = example_set
 
-    const question_count = question_set.length
-
+    const [questions, setQuestions] = useState(null)
     const [card, setCard] = useState(0)
-    const [answers, setAnswers] = useState(Array(question_count))
+    const [answers, setAnswers] = useState(Array(question_count).fill(""))
 
     useEffect(() => {
-        //if(card === question_count * 2)  //SUBMIT
+        if (card === question_count * 2) {
+            console.log("submiting...")
+            const responseData = {
+                "exercises": [
+                    questions.map((val, i) => {
+                        return ({
+                            "first": val.wordId,
+                            "second": val.word === answers[i]
+                        })
+                    })
+                ]
+            }
+            console.log(responseData)
+            const response = fetch("http://localhost:8080/api/quiz/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(responseData)
+            })
+                .then(res => console.log("...submit"))
+        }
     }, [card])
 
-    return (
+    useEffect(() => {
+        fetch("http://localhost:8080/api/quiz/")
+            .then(res => res.json())
+            .then(data => setQuestions(data["exercises"]))
+    }, [])
+
+    return card === question_count * 2 ? (
+        <Results/>
+    ) : questions === null ? (
+        <Loading/>
+    ) : card % 2 === 0 ? (
         <div className={"question_container"}>
             <FontAwesomeIcon
                 onClick={() => setCard(card + 1)}
                 className={"question_next"}
                 icon={faChevronRight}
             />
-            {
-                (card % 2 === 0 && card < question_count * 2) &&
-                (
-                    <OpenQuestion
-                        number={card / 2 + 1}
-                        sentence={question_set[card / 2].sentence.split(question_set[card / 2].word)}
-                        word_type={question_set[card / 2]["word_type"]}
-                        setAnswer={(a) => setAnswers(() => {
-                            let res = answers;
-                            res[card / 2] = a
-                            return res
-                        })}
-                    />
-                )
-            }
-            {
-                (card % 2 !== 0 && card < question_count * 2) && (
-                    <Answer
-                        number={(card - 1) / 2 + 1}
-                        sentence={question_set[(card - 1) / 2].sentence.split(question_set[(card - 1) / 2].word)}
-                        answer_given={answers[(card - 1) / 2]}
-                        answer_correct={question_set[(card - 1) / 2].word}
-                        status={question_set[(card - 1) / 2].status}
-                    />
-                )
-            }
+            <OpenQuestion
+                number={card / 2 + 1}
+                sentence={questions[card / 2]["sentence"].replace(/\[.*?\]/g, "#").split("#")}
+                word_type={questions[card / 2]["wordType"]}
+                setAnswer={(a) => setAnswers(() => {
+                    let res = answers;
+                    res[card / 2] = a
+                    return res
+                })}
+            />
+        </div>
+    ) : (
+        <div className={"question_container"}>
+            <FontAwesomeIcon
+                onClick={() => setCard(card + 1)}
+                className={"question_next"}
+                icon={faChevronRight}
+            />
+            <Answer
+                number={(card - 1) / 2 + 1}
+                sentence={questions[(card - 1) / 2]["sentence"].replace(/\[.*?\]/g, "#").split("#")}
+                answer_given={answers[(card - 1) / 2]}
+                answer_correct={questions[(card - 1) / 2].word}
+                status={[null, null, null, null, null]}// questions[(card - 1) / 2].status}
+            />
         </div>
     )
 }
