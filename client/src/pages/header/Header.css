@@ -16,6 +16,7 @@
 }
 
 .header_button {
+    cursor: pointer;
     height: 30px;
     width: 30px;
     padding: 10px;
@@ -23,6 +24,7 @@
 }
 
 .header_button_separator {
+    cursor: pointer;
     justify-self: flex-end;
     margin-left: auto;
     height: 30px;

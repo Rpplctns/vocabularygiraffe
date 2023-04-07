@@ -2,39 +2,31 @@ import './Words.css'
 
 import colors from '../../const/colors.json'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLinesLeaning, faCheck, faCloud} from "@fortawesome/free-solid-svg-icons";
-import {useState} from "react";
+import {faLinesLeaning, faCheck, faCloud, faHourglassHalf} from "@fortawesome/free-solid-svg-icons";
+import {useEffect, useState} from "react";
+import Loading from "../loading/Loading";
 
 const Words = () => {
 
     const [words, setWords] = useState(null)
 
-    fetch("http://localhost:8080/api/words/")
-        .then(res => res.json())
-        .then(data => setWords(data))
+    useEffect(() => {
+            fetch("http://localhost:8080/api/words/")
+                .then(res => res.json())
+                .then(data => setWords(data))
+        },
+        []
+    )
 
-    return (
+    if (words !== null) return (
         <div className={"words_container"}>
             <p className={"words_header"} style={{color: colors.wrong}}>
-                <FontAwesomeIcon icon={faCloud}/>
-                {" "}Planned
-            </p>
-            <div className={"words_category_container"}>
-                {
-                    (words !== null) && words.map((word, i) => {
-                        return (
-                            <p className={"words_word"} key={i}>{word.content}</p>
-                        )
-                    })
-                }
-            </div>
-            <p className={"words_header"} style={{color: colors.yellow}}>
                 <FontAwesomeIcon icon={faLinesLeaning}/>
                 {" "}Learning
             </p>
             <div className={"words_category_container"}>
                 {
-                    (words !== null) &&  words.map((word, i) => {
+                    words.filter((word) => word.status < 243).map((word, i) => {
                         return (
                             <p className={"words_word"} key={i}>{word.content}</p>
                         )
@@ -47,7 +39,7 @@ const Words = () => {
             </p>
             <div className={"words_category_container"}>
                 {
-                    (words !== null) && words.map((word, i) => {
+                    words.filter((word) => word.status === 243).map((word, i) => {
                         return (
                             <p className={"words_word"} key={i}>{word.content}</p>
                         )
@@ -55,6 +47,9 @@ const Words = () => {
                 }
             </div>
         </div>
+    )
+    else return (
+        <Loading/>
     )
 }
 export default Words
