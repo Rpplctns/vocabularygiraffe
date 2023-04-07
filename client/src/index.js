@@ -18,8 +18,8 @@ const App = () => {
 
     return (
         <div className={"App"} style={{
-            backgroundColor: colors[theme ? "light" : "dark"].background,
-            color: colors[theme ? "light" : "dark"].foreground
+            backgroundColor: colors[theme ? "light" : "dark"]["background"],
+            color: colors[theme ? "light" : "dark"]["foreground"]
         }}>
             <BrowserRouter>
                 <Header theme={theme} setTheme={(a) => setTheme(a)}/>

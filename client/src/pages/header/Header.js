@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 
 const Header = ({theme, setTheme}) => {
     return (
-        <div className={"header_container"} style={{color: colors[theme ? "light" : "dark"].foreground}}>
+        <div className={"header_container"} style={{color: colors[theme ? "light" : "dark"]["foreground"]}}>
             <Link className={"header_text"} to={"/"}  >
                 Vocabulary Giraffe
             </Link>
@@ -18,7 +18,7 @@ const Header = ({theme, setTheme}) => {
             <FontAwesomeIcon
                 className={"header_button"}
                 onClick={() => setTheme(!theme)}
-                style={{backgroundColor: colors[theme ? "light": "dark"].background}}
+                style={{backgroundColor: colors[theme ? "light" : "dark"]["background"]}}
                 icon={theme ? faMoon : faSun}
             />
         </div>

@@ -2,7 +2,7 @@ import './Words.css'
 
 import colors from '../../const/colors.json'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLinesLeaning, faCheck, faCloud, faHourglassHalf} from "@fortawesome/free-solid-svg-icons";
+import {faLinesLeaning, faCheck} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import Loading from "../loading/Loading";
 

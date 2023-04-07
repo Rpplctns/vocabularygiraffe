@@ -1,5 +1,3 @@
-import colors from "../../const/colors.json"
-
 const OpenQuestion = ({number, sentence, word_type, setAnswer}) => {
     return (
         <div className={"question_card"}>

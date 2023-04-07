@@ -5,7 +5,7 @@ import Answer from "./Answer";
 
 import {useEffect, useState} from "react";
 
-import {faCheck, faChevronRight, faHourglassHalf} from "@fortawesome/free-solid-svg-icons";
+import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Results from "./Results";
 import Loading from "../loading/Loading";
@@ -20,28 +20,28 @@ const Questions = () => {
 
     useEffect(() => {
         if (card === question_count * 2) {
-            console.log("submiting...")
+            console.log("submitting...")
             const responseData = {
                 "exercises": [
                     questions.map((val, i) => {
                         return ({
-                            "first": val.wordId,
-                            "second": val.word === answers[i]
+                            "first": val["wordId"],
+                            "second": val["word"] === answers[i]
                         })
                     })
                 ]
             }
             console.log(responseData)
-            const response = fetch("http://localhost:8080/api/quiz/", {
+            fetch("http://localhost:8080/api/quiz/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(responseData)
             })
-                .then(res => console.log("...submit"))
+                .then(() => console.log("...submit"))
         }
-    }, [card])
+    }, [answers, card, questions])
 
     useEffect(() => {
         fetch("http://localhost:8080/api/quiz/")
@@ -62,7 +62,7 @@ const Questions = () => {
             />
             <OpenQuestion
                 number={card / 2 + 1}
-                sentence={questions[card / 2]["sentence"].replace(/\[.*?\]/g, "#").split("#")}
+                sentence={questions[card / 2]["sentence"].replace(/\[.*?]/g, "#").split("#")}
                 word_type={questions[card / 2]["wordType"]}
                 setAnswer={(a) => setAnswers(() => {
                     let res = answers;
@@ -80,7 +80,7 @@ const Questions = () => {
             />
             <Answer
                 number={(card - 1) / 2 + 1}
-                sentence={questions[(card - 1) / 2]["sentence"].replace(/\[.*?\]/g, "#").split("#")}
+                sentence={questions[(card - 1) / 2]["sentence"].replace(/\[.*?]/g, "#").split("#")}
                 answer_given={answers[(card - 1) / 2]}
                 answer_correct={questions[(card - 1) / 2].word}
                 status={[null, null, null, null, null]}// questions[(card - 1) / 2].status}
