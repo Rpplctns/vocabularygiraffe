@@ -1,5 +1,6 @@
 package radoslawmajer.vocabularygiraffe.server.api
 
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import radoslawmajer.vocabularygiraffe.server.data.*
 import radoslawmajer.vocabularygiraffe.server.services.*
@@ -11,17 +12,15 @@ import java.util.*
 @RequestMapping("/api/words")
 class WordsController (val service: WordService) {
     @GetMapping("/")
-    @ResponseBody
-    fun getAllWords(): MutableIterable<Word> = service.getWords()
+    fun getAllWords(): ResponseEntity<MutableIterable<Word>> = ResponseEntity.ok(service.getWords())
 
     @PostMapping("/")
-    @ResponseBody
-    fun addWord(@RequestParam("word") word: String, @RequestParam("category") category: Int): Boolean {
+    fun addWord(@RequestParam("word") word: String, @RequestParam("category") category: Int): ResponseEntity<Boolean> {
         return try {
             service.addWord(word, category)
-            true
+            ResponseEntity.ok(true)
         } catch (e: FileNotFoundException) {
-            false
+            ResponseEntity.ok(false)
         }
     }
 

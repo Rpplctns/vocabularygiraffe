@@ -9,7 +9,6 @@ import radoslawmajer.vocabularygiraffe.server.utils.*
 @RequestMapping("/api/quiz")
 class QuizController (val service: QuizService) {
     @GetMapping("/")
-    @ResponseBody
     fun getQuiz(): Quiz = service.getQuiz()
 
     @PostMapping("/")
