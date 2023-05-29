@@ -9,11 +9,10 @@ import radoslawmajer.vocabularygiraffe.server.utils.*
 @RequestMapping("/api/quiz")
 class QuizController (val service: QuizService) {
     @GetMapping("/")
-    @ResponseBody
-    fun getQuiz(): Quiz = service.getQuiz()
+    fun getQuiz(@RequestParam("token") token: String): Quiz =
+        service.getQuiz(validateAndGetId(token))
 
     @PostMapping("/")
-    fun postResults(@RequestBody results: Results) {
-        service.acceptResults(results)
-    }
+    fun postResults(@RequestBody results: Results, @RequestParam("token") token: String) =
+        service.acceptResults(results, validateAndGetId(token))
 }

@@ -5,11 +5,11 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-@Table(name = "WORDS", indexes = [ Index(name = "index_used", columnList = "used") ])
+@Table(name = "T_WORD", indexes = [ Index(name = "index_used", columnList = "used") ])
 data class Word (
     @Id
     @GeneratedValue(generator = "uuid2")
-    var id: UUID = UUID.randomUUID(),
+    var id: UUID? = UUID.randomUUID(),
 
     @Column(name = "content")
     val content: String?,
@@ -24,7 +24,10 @@ data class Word (
     var category: Int?,
 
     @Column(name = "used")
-    var used: LocalDateTime? = null
+    var used: LocalDateTime?,
+
+    @Column(name = "owner")
+    var user: UUID?
 ) {
-    constructor(): this(UUID.randomUUID(), null, null, null, null, null)
+    constructor(): this(null, null, null, null, null, null, null)
 }

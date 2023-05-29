@@ -9,6 +9,7 @@ import radoslawmajer.vocabularygiraffe.server.data.Results
 import radoslawmajer.vocabularygiraffe.server.repository.WordRepository
 import radoslawmajer.vocabularygiraffe.server.utils.getSentence
 import java.time.LocalDateTime
+import java.util.*
 
 
 @Service
@@ -21,8 +22,8 @@ class QuizService(var wordRepository: WordRepository) {
      * Generates quiz.
      * @return quiz
      */
-    fun getQuiz(): Quiz = Quiz(
-        wordRepository.quizWordSet().map { w ->
+    fun getQuiz(user: UUID): Quiz = Quiz(
+        wordRepository.quizWordSet(user).map { w ->
             runBlocking{ Pair(w, getSentence(w.content!!, openAI)) }
         }
     )
@@ -31,7 +32,7 @@ class QuizService(var wordRepository: WordRepository) {
      * Process results of the quiz. Updates the date of giving the exercise last time
      * @param results results of the quiz
      */
-    fun acceptResults(results: Results) {
+    fun acceptResults(results: Results, user: UUID) {
         val time = LocalDateTime.now()
         for (r in results.exercises) {
             val record = wordRepository.findById(r.first)
