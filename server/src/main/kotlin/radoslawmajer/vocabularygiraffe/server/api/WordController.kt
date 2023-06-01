@@ -23,6 +23,6 @@ class WordController (val service: WordService) {
         service.deleteWord(id, validateAndGetId(token))
 
     @PutMapping("/{id}")
-    fun setCategory(@PathVariable("id") id: UUID, category: Int, @RequestParam("token") token: String) =
+    fun setCategory(@PathVariable("id") id: UUID, @RequestParam("category") category: Int, @RequestParam("token") token: String) =
         service.setCategory(id, category, validateAndGetId(token))
 }

@@ -33,15 +33,18 @@ class QuizService(var wordRepository: WordRepository) {
      * @param results results of the quiz
      */
     fun acceptResults(results: Results, user: UUID) {
-        val time = LocalDateTime.now()
+        val timeStamp = LocalDateTime.now()
         for (r in results.exercises) {
-            val record = wordRepository.findById(r.first)
-            val word = record.get()
-            word.used = time
-            word.status = word.status!! * 3 + if(r.second) 2 else 1
-            if(word.status!! >= 243) word.status = word.status!! - 243
-            if(word.status == 242) word.category = word.category!! + 1
-            wordRepository.save(word)
+            val wordRecord = wordRepository.findById(r.first)
+            if(wordRecord.get().user != user) throw Exception("unauthorised operation")
+        }
+        for (r in results.exercises) {
+            val wordRecord = wordRepository.findById(r.first)
+            wordRecord.get().used = timeStamp
+            wordRecord.get().status = wordRecord.get().status!! * 3 + if(r.second) 2 else 1
+            if(wordRecord.get().status!! >= 243) wordRecord.get().status = wordRecord.get().status!! - 243
+            if(wordRecord.get().status == 242) wordRecord.get().category = wordRecord.get().category!! + 1
+            wordRepository.save(wordRecord.get())
         }
     }
 }

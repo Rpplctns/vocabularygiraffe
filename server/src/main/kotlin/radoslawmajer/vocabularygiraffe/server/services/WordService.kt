@@ -10,19 +10,20 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class WordService (var wordRepository: WordRepository) {
+class WordService (var repository: WordRepository) {
 
     /**
      * Returns list of all words.
      * @return list of words
      */
-    fun getWords(): MutableIterable<Word> = wordRepository.findAll()
+    fun getWords(): MutableIterable<Word> = repository.findAll()
 
     /**
      * Returns list of all user's words.
      * @return list of words
      */
-    fun getWords(user: UUID): MutableIterable<Word> = wordRepository.findAll(Example.of(Word(null, null, null, null, null, null, user)))
+    fun getWords(user: UUID): MutableIterable<Word> =
+        repository.findAll(Example.of(Word(null, null, null, null, null, null, user)))
 
     /**
      * Adds word to database.
@@ -34,18 +35,23 @@ class WordService (var wordRepository: WordRepository) {
         val time = LocalDateTime.now()
         val type = getType(wordContent)
         val word = Word(content = wordContent, type = type, status = 0, category = category, used = time, user = user)
-        wordRepository.save(word)
+        repository.save(word)
 
     }
 
+    @Throws(Exception::class)
     fun deleteWord(id: UUID, user: UUID) {
-        wordRepository.deleteById(id)
+        val wordRecord = repository.findById(id)
+        if(wordRecord.isEmpty) throw Exception("word does not exist")
+        if(wordRecord.get().user != user) throw Exception("unauthorised operation")
+        repository.delete(wordRecord.get())
     }
 
     fun setCategory(id: UUID, category: Int, user: UUID) {
-        val record: Optional<Word> = wordRepository.findById(id)
-        val word = record.get()
-        word.category = category
-        wordRepository.save(word)
+        val wordRecord = repository.findById(id)
+        if(wordRecord.isEmpty) throw Exception("word does not exist")
+        if(wordRecord.get().user != user) throw Exception("unauthorised operation")
+        wordRecord.get().category = category
+        repository.save(wordRecord.get())
     }
 }

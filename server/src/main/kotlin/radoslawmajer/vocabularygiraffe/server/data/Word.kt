@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Entity
-@Table(name = "T_WORD", indexes = [ Index(name = "index_used", columnList = "used") ])
+@Table(name = "T_WORD", indexes = [ Index(name = "index_used", columnList = "used"), Index(name = "index_owner", columnList = "owner") ])
 data class Word (
     @Id
     @GeneratedValue(generator = "uuid2")

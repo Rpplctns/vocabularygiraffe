@@ -13,23 +13,32 @@ import java.util.*
 class UserService (var repository: UserRepository) {
     @Throws(Exception::class)
     fun login(login: String, password: String): String {
-        val user = repository.findOne(Example.of(User(null, login, null)))
-        if(user.isEmpty) throw Exception("user does not exist")
-        if(areMatching(password, user.get().passwordHash!!)) throw Exception("wrong password")
-        return generate(user.get().id!!).encrypt()
+        val userRecord = repository.findOne(Example.of(User(null, login, null)))
+        if(userRecord.isEmpty) throw Exception("user does not exist")
+        if(!areMatching(password, userRecord.get().passwordHash!!)) throw Exception("wrong password")
+        return generate(userRecord.get().id!!).encrypt()
     }
 
     @Throws(Exception::class)
     fun register(login: String, password: String): String {
         if(repository.exists(Example.of(User(null, login, null))))
             throw Exception("user already exists")
-        val user = repository.save(User(name = login, passwordHash = hash(password)))
-        return generate(user.id!!).encrypt()
+        val userRecord = repository.save(User(name = login, passwordHash = hash(password)))
+        return generate(userRecord.id!!).encrypt()
     }
 
-    fun deleteUser(login: String) {
-        val user = repository.findOne(Example.of(User(null, login, null)))
-        if(user.isEmpty) throw Exception("user does not exist")
-        repository.deleteById(user.get().id!!)
+    @Throws(Exception::class)
+    fun deleteUser(login: String, user: UUID) {
+        val userRecord = repository.findOne(Example.of(User(null, login, null)))
+        if(userRecord.get().id != user) throw Exception("wrong token")
+        if(userRecord.isEmpty) throw Exception("user does not exist")
+        repository.deleteById(userRecord.get().id!!)
+    }
+
+    @Throws(Exception::class)
+    fun refresh(login: String, user: UUID): String? {
+        val userRecord = repository.findOne(Example.of(User(null, login, null)))
+        if(userRecord.get().id != user) throw Exception("wrong token")
+        return generate(userRecord.get().id!!).encrypt()
     }
 }
