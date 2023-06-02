@@ -8,7 +8,7 @@ import {useEffect, useState} from "react";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Results from "./Results";
-import Loading from "../loading/Loading";
+import Loading from "../Loading";
 
 const question_count = 10
 

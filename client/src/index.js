@@ -1,13 +1,17 @@
-import './index.css';
+import './style.css';
 
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import colors from "./const/colors.json";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Header from "./pages/header/Header";
-import Home from "./pages/home/Home";
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import Questions from "./pages/questions/Questions";
-import Words from "./pages/words/Words";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMoon, faSun} from "@fortawesome/free-solid-svg-icons";
+import AddWord from "./pages/AddWord";
+import Quiz from "./pages/Quiz";
 
 const App = () => {
 
@@ -22,11 +26,18 @@ const App = () => {
             color: colors[theme ? "light" : "dark"]["foreground"]
         }}>
             <BrowserRouter>
-                <Header theme={theme} setTheme={(a) => setTheme(a)}/>
+                <Link className={"header_text"} to={"/"}> Vocabulary Giraffe </Link>
+                <FontAwesomeIcon
+                    className={"header_button"}
+                    onClick={() => setTheme(!theme)}
+                    icon={theme ? faMoon : faSun}
+                />
                 <Routes>
-                    <Route path={"/"} element={<Home/>}/>
-                    <Route path={"quiz"} element={<Questions/>}/>
-                    <Route path={"words"} element={<Words/>}/>
+                    <Route path={"/"} element={<Dashboard/>}/>
+                    <Route path={"quiz"} element={<Quiz/>}/>
+                    <Route path={"login"} element={<Login/>}/>
+                    <Route path={"register"} element={<Register/>}/>
+                    <Route path={"add"} element={<AddWord/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

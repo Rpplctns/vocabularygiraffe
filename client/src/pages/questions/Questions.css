@@ -31,15 +31,14 @@
 }
 
 .question_answer {
+    width: fit-content;
     border: none;
+    /*border-bottom: solid 2px;*/
+    text-decoration: underline;
     outline: none;
-    text-align: center;
     font: inherit;
-    font-variant: none;
     font-weight: 400;
-    font-size: x-large;
-    letter-spacing: 3px;
-    margin: 0;
+    letter-spacing: 2px;
     background-color: transparent;
     color: inherit;
 }
