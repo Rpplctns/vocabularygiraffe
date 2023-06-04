@@ -3,57 +3,33 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLinesLeaning, faCheck, faPlay, faPlus, faRightFromBracket, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import Loading from "./Loading";
+import {cookies, deleteAccount, deleteWord, getWords, logOut, setCategory} from "../serverUtils";
 
-const Dashboard = () => {
-
-    const [words, setWords] = useState([
-        {
-            "id": "7d05a88f-daaa-41d1-8c5a-8974529a9a3a",
-            "content": "trip",
-            "type": "n./v./adj.",
-            "status": 0,
-            "category": 0,
-            "used": "2023-05-31T06:42:15.035201",
-            "user": "47c1de93-1c24-4c1c-9e24-3c8f1f8e4970"
-        },
-        {
-            "id": "029f0828-3241-43a4-83a8-eb37f0e6d3f6",
-            "content": "club",
-            "type": "n./v.",
-            "status": 0,
-            "category": 1,
-            "used": "2023-05-31T06:42:23.822064",
-            "user": "47c1de93-1c24-4c1c-9e24-3c8f1f8e4970"
-        },
-        {
-            "id": "870c745d-d88a-4388-b88c-d6fbb9a71fa5",
-            "content": "spurs",
-            "type": "v./n.",
-            "status": 0,
-            "category": 0,
-            "used": "2023-05-31T06:43:21.893102",
-            "user": "47c1de93-1c24-4c1c-9e24-3c8f1f8e4970"
-        }
-    ])
+const Dashboard = ({navigate}) => {
+    const [words, setWords] = useState(null)
 
     useEffect(() => {
-            fetch("http://localhost:8080/api/words/")
-                .then(res => res.json())
-                .then(data => setWords(data))
-        },
-        []
-    )
+        if (cookies.get("token") === undefined){
+            navigate('login/')
+            return
+        }
+        getWords((x) => setWords(x))
+    }, [])
 
     return words === null ? (
         <Loading/>
     ) : (
         <div className={"full_page_container"}>
             <div className={"row_container"}>
-                <div className={"text_button"}>
+                <div className={"text_button"}
+                    onClick={() => navigate('/quiz')}
+                >
                     <FontAwesomeIcon icon={faPlay}/>
-                    {" "}Start quiz
+                    {" "}Start learning
                 </div>
-                <div className={"text_button"}>
+                <div className={"text_button"}
+                     onClick={() => navigate('/add')}
+                >
                     <FontAwesomeIcon icon={faPlus}/>
                     {" "}Add words
                 </div>
@@ -66,8 +42,22 @@ const Dashboard = () => {
                 {
                     words.filter((word) => word.category === 0).map((word, i) => {
                         return (
-                            <div className={"text_button"} key={i}>{word["content"]} <span
-                                style={{color: colors.grey}}>[{word["type"]}]</span></div>
+                            <div className={"text_button"} key={i} style={{cursor: "default"}}>{word["content"]}
+                                <span style={{color: colors.grey}}>[{word["type"]}]</span>
+                                <div className={"separator"}/>
+                                <FontAwesomeIcon className={"small_button"} icon={faTrash}
+                                                 onClick={() => {
+                                                     deleteWord(word["id"])
+                                                         .then(() => getWords((x) => setWords(x)))
+                                                 }}
+                                />
+                                <FontAwesomeIcon className={"small_button"} icon={faCheck}
+                                                 onClick={() => {
+                                                     setCategory(word["id"], 1)
+                                                         .then(() => getWords((x) => setWords(x)))
+                                                 }}
+                                />
+                            </div>
                         )
                     })
                 }
@@ -80,18 +70,42 @@ const Dashboard = () => {
                 {
                     words.filter((word) => word.category === 1).map((word, i) => {
                         return (
-                            <div className={"text_button"} key={i}>{word["content"]} <span
-                                style={{color: colors.grey}}>[{word["type"]}]</span></div>
+                            <div className={"text_button"} key={i}>{word["content"]}
+                                <span style={{color: colors.grey}}>[{word["type"]}]</span>
+                                <div className={"separator"}/>
+                                <FontAwesomeIcon className={"small_button"} icon={faTrash}
+                                                 onClick={() => {
+                                                     deleteWord(word["id"])
+                                                         .then(() => getWords((x) => setWords(x)))
+                                                 }}
+                                />
+                                <FontAwesomeIcon className={"small_button"} icon={faLinesLeaning}
+                                                 onClick={() => {
+                                                     setCategory(word["id"], 0)
+                                                         .then(() => getWords((x) => setWords(x)))
+                                                 }}
+                                />
+                            </div>
                         )
                     })
                 }
             </div>
             <div className={"row_container"}>
-                <div className={"text_button"}>
+                <div className={"text_button"}
+                     onClick={() => {
+                         logOut()
+                         navigate('/login')
+                     }}
+                >
                     <FontAwesomeIcon icon={faRightFromBracket}/>
                     {" "}Log out
                 </div>
-                <div className={"text_button"} style={{color: colors.wrong}}>
+                <div className={"text_button"} style={{color: colors.wrong}}
+                     onClick={() => {
+                         deleteAccount()
+                             .then(() => navigate('/login'))
+                     }}
+                >
                     <FontAwesomeIcon icon={faTrash}/>
                     {" "}Delete account
                 </div>
@@ -99,4 +113,4 @@ const Dashboard = () => {
         </div>
     )
 }
-export default Dashboard
+    export default Dashboard

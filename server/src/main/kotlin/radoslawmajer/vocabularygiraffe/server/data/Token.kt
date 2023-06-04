@@ -7,7 +7,7 @@ import javax.crypto.spec.SecretKeySpec
 
 const val SECRET_KEY = "404D635166546A57"
 
-class Token(
+data class Token(
     var id: UUID,
     var expiration: LocalDateTime
 ) {
@@ -21,6 +21,7 @@ class Token(
         return Base64.getEncoder().encodeToString(c.doFinal(this.toString().toByteArray()))
             .replace("/", "_")
             .replace("+", "-")
+            .replace("=", "")
     }
 }
 
@@ -38,6 +39,7 @@ fun decrypt(encryptedString: String): Token {
         encryptedString
             .replace("_", "/")
             .replace("-", "+")
+            .padEnd(encryptedString.length + 4 - (encryptedString.length % 4), '=')
     )))
     return obtainFromString(s)
 }

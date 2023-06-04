@@ -17,9 +17,6 @@ data class Word (
     @Column(name = "type")
     val type: String?,
 
-    @Column(name = "status")
-    var status: Int?,
-
     @Column(name = "category")
     var category: Int?,
 
@@ -29,5 +26,5 @@ data class Word (
     @Column(name = "owner")
     var user: UUID?
 ) {
-    constructor(): this(null, null, null, null, null, null, null)
+    constructor(): this(null, null, null, null, null, null)
 }

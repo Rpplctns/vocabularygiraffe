@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity
 @Table(name = "T_USER")
-class User (
+data class User (
     @Id
     @GeneratedValue(generator = "uuid2")
     var id: UUID? = UUID.randomUUID(),

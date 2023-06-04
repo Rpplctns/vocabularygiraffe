@@ -23,7 +23,7 @@ class WordService (var repository: WordRepository) {
      * @return list of words
      */
     fun getWords(user: UUID): MutableIterable<Word> =
-        repository.findAll(Example.of(Word(null, null, null, null, null, null, user)))
+        repository.findAll(Example.of(Word(null, null, null, null, null, user)))
 
     /**
      * Adds word to database.
@@ -34,7 +34,7 @@ class WordService (var repository: WordRepository) {
     fun addWord(wordContent: String, category: Int, user: UUID) {
         val time = LocalDateTime.now()
         val type = getType(wordContent)
-        val word = Word(content = wordContent, type = type, status = 0, category = category, used = time, user = user)
+        val word = Word(content = wordContent, type = type, category = category, used = time, user = user)
         repository.save(word)
 
     }

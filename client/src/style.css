@@ -45,7 +45,7 @@ body {
 .full_page_container {
     display: flex;
     flex-direction: column;
-    margin: 120px 40px 0 40px;
+    margin: 120px 40px 40px 40px;
     gap: 30px;
     margin-inside: 0;
 }
@@ -89,11 +89,10 @@ p {
     color: inherit;
 }
 
-.data_input {
+.small_data_input {
     border: solid 2px;
     border-radius: 20px;
     height: 30px;
-    width: min-content;
     outline: none;
     font: inherit;
     font-size: large;
@@ -125,6 +124,16 @@ p {
     padding: 10px 30px;
     gap: 10px;
     cursor: pointer;
+}
+
+.separator {
+    width: 0;
+    margin: 0;
+}
+
+.small_button {
+    cursor: pointer;
+    color: grey;
 }
 
 .link {
