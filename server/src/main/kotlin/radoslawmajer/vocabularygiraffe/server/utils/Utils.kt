@@ -1,5 +1,7 @@
 package radoslawmajer.vocabularygiraffe.server.utils
 
+import com.aallam.openai.api.completion.CompletionRequest
+import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.google.gson.JsonParser
 import java.io.FileNotFoundException
@@ -11,13 +13,13 @@ import java.net.URL
  * @param openAI an openai client
  * @return a result sentence
  */
-suspend fun getSentence(word: String, openAI: OpenAI): String = "I suppose [$word] is the word youre lookin for!" //openAI.completion(
-//    CompletionRequest(
-//        model = ModelId("text-davinci-003"),
-//        prompt = "Give an example of sentence with word \"$word\", putting the keyword in square brackets.",
-//        temperature = 1.0
-//    )
-//).choices[0].text
+suspend fun getSentence(word: String, openAI: OpenAI): String = openAI.completion(
+    CompletionRequest(
+        model = ModelId("text-davinci-003"),
+        prompt = "Give an example of sentence with word \"$word\", putting the keyword in square brackets.",
+        temperature = 1.0
+    )
+).choices[0].text
 
 
 /**

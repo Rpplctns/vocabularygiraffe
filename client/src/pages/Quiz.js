@@ -91,7 +91,7 @@ const Quiz = ({navigate}) => {
             navigate('login/')
             return
         }
-        getQuestions((x) => setQuestions(x))
+        getQuestions((x) => setQuestions(x)).catch(err => navigate("login/"))
     }, [])
 
     return questions === null ? (

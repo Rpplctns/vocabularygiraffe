@@ -11,7 +11,12 @@ const AddWord = ({navigate}) => {
     return (
         <div className={"card_container"}>
             <h1>Add word</h1>
-            <input className={"data_input"} placeholder={"word"} autoFocus={true} onChange={e => setWord(e.target.value)}/>
+            <input className={"data_input"} placeholder={"word"} autoFocus={true} onChange={e => {
+                e.target.value = e.target.value
+                    .replace(/[^a-zA-Z]/g, '')
+                    .toLowerCase()
+                setWord(e.target.value)
+            }}/>
             <p style={{color: colors.wrong, textAlign: "center"}}>{err}</p>
             <FontAwesomeIcon
                 className={"next_button"}
