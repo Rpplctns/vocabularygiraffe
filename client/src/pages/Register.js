@@ -16,7 +16,7 @@ const Register = ({navigate}) => {
             <h1>Register</h1>
             <input className={"data_input"} placeholder={"login"} onChange={(e) => setLogin(e.target.value)}/>
             <input className={"data_input"} type={"password"} placeholder={"password"} onChange={(e) => setPassword(e.target.value)} />
-            <input className={"data_input"} type={"password"} placeholder={"password"} onChange={(e) => setPasswordRep(e.target.value)} />
+            <input className={"data_input"} type={"password"} placeholder={"repeat password"} onChange={(e) => setPasswordRep(e.target.value)} />
             <p style={{color: colors.wrong, textAlign: "center"}}>{err}</p>
             <FontAwesomeIcon
                 className={"next_button"}

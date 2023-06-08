@@ -21,9 +21,9 @@ const logIn = async (login, password) => {
         login: login,
         password: password
     }))
-        .then(res => {
-            if(res.ok) return res.text()
-            throw new Error("unknown error")
+        .then(async res => {
+            if (res.ok) return res.text()
+            throw new Error(await res.text())
         })
         .then(res => {
             cookies.set("token", res, {path: "/"})
@@ -36,9 +36,9 @@ const register = async (login, password) => {
         login: login,
         password: password
     }))
-        .then(res => {
-            if(res.ok) return res.text()
-            throw new Error("unknown error")
+        .then(async res => {
+            if (res.ok) return res.text()
+            throw new Error(await res.text())
         })
         .then(res => {
             cookies.set("token", res, {path: "/"})
@@ -71,6 +71,7 @@ export {updateToken, logIn, register, logOut, deleteAccount, getToken}
 // WORDS
 
 const getWords = async (setter) => {
+    await updateToken()
     await fetch(SERVER + "/api/words/?" + new URLSearchParams({
         token: cookies.get("token")
     }))
@@ -82,18 +83,20 @@ const getWords = async (setter) => {
 }
 
 const addWord = async (word, category) => {
+    await updateToken()
     await fetch(SERVER + "/api/words/?" + new URLSearchParams({
         word: word,
         category: category,
         token: cookies.get("token")
     }), {method: "POST"})
-        .then(res => {
-            if(res.ok) return
-            throw new Error("There is no such word")
+        .then(async res => {
+            if (res.ok) return
+            throw new Error(await res.text())
         })
 }
 
 const deleteWord = async (id) => {
+    await updateToken()
     await fetch(SERVER + '/api/words/' + id + '?' + new URLSearchParams({
         token: cookies.get("token")
     }), {method: "DELETE"})
@@ -104,6 +107,7 @@ const deleteWord = async (id) => {
 }
 
 const setCategory = async (id, category) => {
+    await updateToken()
     await fetch(SERVER + '/api/words/' + id + '?' + new URLSearchParams({
         category: category,
         token: cookies.get("token")
@@ -119,6 +123,7 @@ export {getWords, addWord, deleteWord, setCategory}
 // QUIZ
 
 const getQuestions = async (setter) => {
+    await updateToken()
     await fetch(SERVER + "/api/quiz/?" + new URLSearchParams({
         token: cookies.get("token")
     }))

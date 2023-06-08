@@ -14,6 +14,7 @@ const Dashboard = ({navigate}) => {
             return
         }
         getWords((x) => setWords(x))
+            .catch(err => navigate("login/"))
     }, [])
 
     return words === null ? (
@@ -48,13 +49,13 @@ const Dashboard = ({navigate}) => {
                                 <FontAwesomeIcon className={"small_button"} icon={faTrash}
                                                  onClick={() => {
                                                      deleteWord(word["id"])
-                                                         .then(() => getWords((x) => setWords(x)))
+                                                         .then(() => getWords((x) => setWords(x))).catch(err => navigate("login/"))
                                                  }}
                                 />
                                 <FontAwesomeIcon className={"small_button"} icon={faCheck}
                                                  onClick={() => {
                                                      setCategory(word["id"], 1)
-                                                         .then(() => getWords((x) => setWords(x)))
+                                                         .then(() => getWords((x) => setWords(x))).catch(err => navigate("login/"))
                                                  }}
                                 />
                             </div>
