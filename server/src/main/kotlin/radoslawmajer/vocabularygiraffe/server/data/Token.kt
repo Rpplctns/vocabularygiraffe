@@ -1,11 +1,10 @@
 package radoslawmajer.vocabularygiraffe.server.data
 
+import radoslawmajer.vocabularygiraffe.server.SECRET_KEY
 import java.time.LocalDateTime
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
-
-const val SECRET_KEY = "404D635166546A57"
 
 data class Token(
     var id: UUID,

@@ -36,21 +36,20 @@ class WordService (var repository: WordRepository) {
         val type = getType(wordContent)
         val word = Word(content = wordContent, type = type, category = category, used = time, user = user)
         repository.save(word)
-
     }
 
     @Throws(Exception::class)
     fun deleteWord(id: UUID, user: UUID) {
         val wordRecord = repository.findById(id)
-        if(wordRecord.isEmpty) throw Exception("word does not exist")
-        if(wordRecord.get().user != user) throw Exception("unauthorised operation")
+        if(wordRecord.isEmpty) throw Exception("Word does not exist")
+        if(wordRecord.get().user != user) throw Exception("Unauthorised operation")
         repository.delete(wordRecord.get())
     }
 
     fun setCategory(id: UUID, category: Int, user: UUID) {
         val wordRecord = repository.findById(id)
-        if(wordRecord.isEmpty) throw Exception("word does not exist")
-        if(wordRecord.get().user != user) throw Exception("unauthorised operation")
+        if(wordRecord.isEmpty) throw Exception("Word does not exist")
+        if(wordRecord.get().user != user) throw Exception("Unauthorised operation")
         wordRecord.get().category = category
         repository.save(wordRecord.get())
     }
